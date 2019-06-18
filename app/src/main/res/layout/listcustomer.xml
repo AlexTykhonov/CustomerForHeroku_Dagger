@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10sp">
 
 
     <LinearLayout
@@ -11,6 +12,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
+        android:layout_marginBottom="10sp"
+        android:id="@+id/linearrecycler"
         >
 
         <TextView
@@ -18,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:layout_editor_absoluteX="140dp"
             tools:layout_editor_absoluteY="251dp" />
 
@@ -27,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:layout_editor_absoluteX="80dp"
             tools:layout_editor_absoluteY="269dp" />
 
@@ -36,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:layout_editor_absoluteX="67dp"
             tools:layout_editor_absoluteY="158dp" />
 
@@ -45,7 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="14sp"
+            android:textSize="12sp"
+
             tools:layout_editor_absoluteX="49dp"
             tools:layout_editor_absoluteY="158dp" />
 

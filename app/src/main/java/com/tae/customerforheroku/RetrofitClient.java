@@ -1,5 +1,7 @@
 package com.tae.customerforheroku;
 
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,7 +11,9 @@ public class RetrofitClient {
     public static Retrofit getCustomer(String url){
         if(retrofit==null){
             retrofit =  new Retrofit.Builder().baseUrl(url)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                            .setLenient()
+                            .create()))
                     .build();
             return retrofit;
         } else return retrofit;

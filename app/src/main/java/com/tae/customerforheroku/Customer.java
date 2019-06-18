@@ -1,5 +1,7 @@
 package com.tae.customerforheroku;
 
+import android.widget.EditText;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +9,7 @@ public class Customer {
 
     @SerializedName("custId")
     @Expose
-    private Integer custId;
+    private Long custId;
     @SerializedName("firstname")
     @Expose
     private String firstname;
@@ -18,11 +20,11 @@ public class Customer {
     @Expose
     private Integer age;
 
-    public Integer getCustId() {
+    public Long getCustId() {
         return custId;
     }
 
-    public void setCustId(Integer custId) {
+    public void setCustId(Long custId) {
         this.custId = custId;
     }
 

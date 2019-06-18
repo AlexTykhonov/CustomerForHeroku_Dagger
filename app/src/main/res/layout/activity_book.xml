@@ -86,6 +86,14 @@
             android:text="Delete"
             tools:layout_editor_absoluteX="80dp"
             tools:layout_editor_absoluteY="190dp" />
+
+        <Button
+            android:id="@+id/buttonUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            tools:layout_editor_absoluteX="80dp"
+            tools:layout_editor_absoluteY="190dp" />
     </LinearLayout>
 
 

@@ -9,12 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     Button btnAddBook;
@@ -35,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Adapter(this, listOfCustomers);
         recyclerView.setAdapter(adapter);
-
         btnAddBook = findViewById(R.id.btnAddBook);
         btnGetBookList = findViewById(R.id.btnGetBookList);
 
-        custInterface = ApiUtils.getCustInterface();
+        custInterface = getApi();
+
         getBookList();
 
         btnAddBook.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static CustInterface getApi() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://fluxcustomer.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        CustInterface custInterface = retrofit.create(CustInterface.class);
+        return custInterface;
+
+    }
     public void getBookList(){
         System.out.println("-------------------------------------GET BOOK LIST used ");
         Call<List<Customer>> call = custInterface.getCustomers();
@@ -75,3 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+
+// разобрать с ошибкой и добавить реактивности

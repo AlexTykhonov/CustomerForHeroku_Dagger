@@ -20,6 +20,7 @@ public class CustActivity extends AppCompatActivity {
     EditText newage;
     Button buttonSave;
     Button buttonDelete;
+    Button buttonUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,61 +32,62 @@ public class CustActivity extends AppCompatActivity {
         newsurname = findViewById(R.id.newsurname);
         newage = findViewById(R.id.newage);
 
-        buttonDelete = findViewById(R.id.buttonDelete);
         buttonSave = findViewById(R.id.buttonSave);
+        buttonDelete = findViewById(R.id.buttonDelete);
+        buttonUpdate = findViewById(R.id.buttonUpdate);
 
         custInterface = ApiUtils.getCustInterface();
         final Bundle extras = getIntent().getExtras();
 
-        final String custid = String.valueOf(extras.getInt("custid"));
+        final Long custid = extras.getLong("id");
         String firstname = extras.getString("firstname");
         String lastame = extras.getString("lastame");
         String age = extras.getString("age");
 
-//        editFormId.setText(bookId);
-//        editFormTitle.setText(title);
-//        editFormAuthor.setText(author);
-//        editFormDescription.setText(description);
-//        editFormPublishDate.setText(published + "");
 
-//        if(custid!=null && custid.trim().length()>0){
-//            editFormId.setFocusable(false);
-//        } else{
-          //  buttonDelete.setVisibility(View.INVISIBLE);
-            //editFormId.setVisibility(View.INVISIBLE);
-        //}
+        if(custid>0){
+            newid.setFocusable(false);
+            newid.setText(custid.toString());
+        } else{
+            buttonDelete.setVisibility(View.INVISIBLE);
+            buttonUpdate.setVisibility(View.INVISIBLE);
+        }
 
-        buttonSave = findViewById(R.id.buttonSave);
-        buttonDelete = findViewById(R.id.buttonDelete);
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Customer customer = new Customer();
-                customer.setCustId(newid.getId());
+                customer.setCustId(custid);
+
+                System.out.println(" >>>>>>>>>>>>>>>>> THIS IS custid"+custid);
                 customer.setFirstname(newname.getText().toString());
                 customer.setLastname(newsurname.getText().toString());
                 int age =Integer.valueOf(newage.getText().toString());
                 customer.setAge(age);
 //
-//                if(custid!=null && custid.trim().length()>0){
-//                    updateBook(Integer.parseInt(bookId), customer);
-//                } else{
-//                    addBook(customer);
-//                }
-                System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CUSTOMER!!!"+customer);;
-               Call<Customer> customer1 = custInterface.postCustomer(customer);
-                        customer1.enqueue(new Callback<Customer>() {
-                    @Override
-                    public void onResponse(Call<Customer> call, Response<Customer> response) {
-                        System.out.println(response.body()+"**************************************************");
-                    }
+                if(custid>0){
+                    updateCustomer(Long.valueOf(newid.getText().toString()), customer);
+                } else{
+                    saveCustomer(customer);
+                }
 
-                    @Override
-                    public void onFailure(Call<Customer> call, Throwable t) {
-                        System.out.println("ERROR____________ERRR________ERRR_____!!!!!__"+t);
-                    }
-                });
+
+
+//               System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CUSTOMER!!!"+customer);
+//               Call<Customer> customer1 = custInterface.postCustomer(customer);
+//                        customer1.enqueue(new Callback<Customer>() {
+//                    @Override
+//                    public void onResponse(Call<Customer> call, Response<Customer> response) {
+//                        System.out.println(response.body()+"**************************************************");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Customer> call, Throwable t) {
+//                        System.out.println("ERROR____________ERRR________ERRR_____!!!!!__"+t);
+//                    }
+//                });
+
             }
         });
 
@@ -117,22 +119,42 @@ public class CustActivity extends AppCompatActivity {
 //        });
 //    }
 //
-//    public void updateBook (final int id, final Customer customer){
-//        Call<Customer> callBook = bookInterface.updateBook(id, customer);
-//        callBook.enqueue(new Callback<Customer>(){
-//            @Override
-//            public void onResponse(Call<Customer> call, Response<Customer> response) {
-//                if(response.isSuccessful()){
-//                    Toast.makeText(BookActivity.this, "Customer updated succesful! " + customer.getId(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Customer> call, Throwable t) {
-//                Toast.makeText(BookActivity.this, "Customer update was unsuccesful!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+
+   public void saveCustomer (final Customer customer) {
+       System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CUSTOMER!!!"+customer);
+       Call<Customer> customer1 = custInterface.postCustomer(customer);
+       customer1.enqueue(new Callback<Customer>() {
+           @Override
+           public void onResponse(Call<Customer> call, Response<Customer> response) {
+               System.out.println(response.body()+"**************************************************");
+           }
+
+           @Override
+           public void onFailure(Call<Customer> call, Throwable t) {
+               System.out.println("ERROR____________ERRR________ERRR_____!!!!!__"+t);
+           }
+       });
+   }
+
+
+
+    public void updateCustomer (final long id, final Customer customer){
+        System.out.println("!!!! Update Customer method was called. If here is" +id+" and customer is"+ customer+". Attention!");
+        Call<Customer> callBook = custInterface.updateCustomer(id, customer);
+        callBook.enqueue(new Callback<Customer>(){
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(CustActivity.this, "Customer updated succesfully! " + customer.getCustId(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Toast.makeText(CustActivity.this, "Customer update was unsuccesful!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 //
 //    public void deleteBook(final int id){
 //        Call<Customer> callBook = bookInterface.deleteBook(id);
