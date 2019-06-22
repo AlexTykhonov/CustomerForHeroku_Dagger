@@ -2,6 +2,7 @@ package com.tae.customerforheroku;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -13,17 +14,17 @@ import retrofit2.http.Path;
 public interface CustInterface {
 
     @GET("api/customer")
-    Call<List<Customer>> getCustomers();
+    Observable<List<Customer>> getCustomers();
 
     @GET("api/customer/{id}")
-    Call<Customer> getCustomer(@Path("id") long id);
+    Observable<Customer> getCustomer(@Path("id") long id);
 
     @POST("api/customer/post")
-    Call<Customer> postCustomer (@Body Customer customer);
+    Observable<Customer> postCustomer (@Body Customer customer);
 
     @PUT("/api/books/{id}")
-    Call<Customer> updateCustomer(@Path("id") long id, @Body Customer customer);
+    Observable<Customer> updateCustomer(@Path("id") long id, @Body Customer customer);
 
     @DELETE("/api/books/{id}")
-    Call<Customer> deleteBook(@Path("id") long id);
+    Observable<Customer> deleteBook(@Path("id") long id);
 }
