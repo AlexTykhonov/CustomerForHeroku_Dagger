@@ -7,13 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CustActivity extends AppCompatActivity {
 
@@ -26,6 +21,7 @@ public class CustActivity extends AppCompatActivity {
     Button buttonDelete;
     Button buttonUpdate;
     Adapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +39,22 @@ public class CustActivity extends AppCompatActivity {
 
         custInterface = ApiUtils.getCustInterface();
 
+        String firstname, lastname;
+        Integer age;
+
         Long custid = 0L;
         final Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            custid = extras.getLong("id");
-           String firstname = extras.getString("firstname");
-           String lastame = extras.getString("lastame");
-           String age = extras.getString("age");
-        }
 
+        if (extras != null) {
+           custid = extras.getLong("id");
+            System.out.println(")))))))))))))))))))))) THIS IS CUSTOMER ID WE GOT FROM EXTRAS )))) "+ custid+" !!!!!!!!!!!!!!!$$$$$$$$");
+           firstname = extras.getString("firstname");
+           lastname = extras.getString("lastname");
+            age = extras.getInt("age");
+            newage.setText(age.toString());
+            newname.setText(firstname);
+            newsurname.setText(lastname);
+        }
         if(custid>0){
             newid.setFocusable(false);
             newid.setText(custid.toString());
@@ -78,16 +81,16 @@ public class CustActivity extends AppCompatActivity {
                 } else{
                     saveCustomer(customer);
                 }
-
                 System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CUSTOMER!!!"+customer);
-                                         }
+            }
         });
+
 
         buttonDelete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                final String userId = String.valueOf(extras.getInt("id"));
-//                deleteBook(Integer.parseInt(userId));
+                //String userId = String.valueOf(extras.get("id"));
+               deleteCustomer(finalCustid);
             }
             });
     }
@@ -118,54 +121,51 @@ public class CustActivity extends AppCompatActivity {
 
 
 
-
+// update the customer
 
     public void updateCustomer (final long id, final Customer customer){
+        System.out.println("_________________________________________ CUSTOMER" + customer);
+        custInterface.updateCustomer(id, customer)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResultsU, this::handleErrorU);
+        System.out.println("!!!! Update Customer method was called. If here is" +id+" and customer is"+ customer+". Attention!");
+    }
 
-//        custInterface.updateCustomer(id, customer)
-//                .subscribeOn(Schedulers.computation())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::handleResults, this::handleError);
-//
-//        System.out.println("!!!! Update Customer method was called. If here is" +id+" and customer is"+ customer+". Attention!");
-//
-//        void handleResults (List<Customer> listOfCustomers){
-//            if (listOfCustomers != null) {
-//                System.out.println("&&*^&*^&*^*^^*&^*^*&^*&^^&*^**&^^&* THIS IS LIST OF CUSTOMERS  ---> " + listOfCustomers);
-//                adapter.setList(listOfCustomers);
-//            } else {
-//                Toast.makeText(this, "NO UPDATED CUSTOMERS", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//
-//        void handleError (Throwable t){
-//            System.out.println(t + "ERROR WHILE UPDATE");
-//        }
-
+    void handleResultsU (Customer updatedCustomer)
+    {
+        if (updatedCustomer != null) {
+            System.out.println("&&*^&*^&*^*^^*&^*^*&^*&^^&*^**&^^&* THIS IS UDATED CUSTOMER  ---> " + updatedCustomer);
+        } else {
+            Toast.makeText(this, "NO UPDATED CUSTOMERS", Toast.LENGTH_LONG).show();
+        }
+    }
+    void handleErrorU (Throwable t){
+        System.out.println(t + "ERROR WHILE UPDATE");
     }
 
 
 
-    public void deleteBook(final int id){
-//        Call<Customer> callBook = bookInterface.deleteBook(id);
-//        System.out.println(id);
-//        callBook.enqueue(new Callback<Customer>(){
-//            @Override
-//            public void onResponse(Call<Customer> call, Response<Customer> response) {
-//                if(response.isSuccessful()) {
-//                    Toast.makeText(BookActivity.this, "Deletion was successful! " + id, Toast.LENGTH_SHORT).show();
-//                } else{
-//                    Toast.makeText(BookActivity.this, "Unsuccessful!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t) {
-//                Toast.makeText(BookActivity.this, "Deletion was not executed!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+// delete Customer
+    public void deleteCustomer(final long id){
+        System.out.println(" DELETE METHOD CALLED!!!!!");
+         custInterface.deleteCustomer(id)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResultsD, this::handleErrorD);
+        System.out.println("!!!! Delete Customer method was called. Customer   " +id+" to be deleted!!!!");
     }
+
+    void handleResultsD (Customer updatedCustomer)
+    {
+        if (updatedCustomer != null) {
+            System.out.println("&&*^&*^&*^*^^*&^*^*&^*&^^&*^**&^^&* THIS IS DELETED CUSTOMER  ---> " + updatedCustomer);
+        } else {
+            Toast.makeText(this, "NO UPDATED CUSTOMERS", Toast.LENGTH_LONG).show();
+        }
+    }
+    void handleErrorD (Throwable t){
+        System.out.println(t + "ERROR WHILE Delete");
+    }
+
 }
-
-
-//  реализовать апдейт

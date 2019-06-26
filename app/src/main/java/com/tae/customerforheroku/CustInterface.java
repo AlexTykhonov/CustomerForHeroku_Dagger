@@ -22,9 +22,9 @@ public interface CustInterface {
     @POST("api/customer/post")
     Observable<Customer> postCustomer (@Body Customer customer);
 
-    @PUT("/api/books/{id}")
+    @PUT("api/customer/put/{id}")
     Observable<Customer> updateCustomer(@Path("id") long id, @Body Customer customer);
 
-    @DELETE("/api/books/{id}")
-    Observable<Customer> deleteBook(@Path("id") long id);
+    @DELETE("api/customer/delete/{id}")
+    Observable<Customer> deleteCustomer(@Path("id") long id);
 }

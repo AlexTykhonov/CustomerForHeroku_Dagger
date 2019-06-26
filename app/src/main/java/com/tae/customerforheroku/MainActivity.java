@@ -56,16 +56,23 @@ public class MainActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 
-        getBookList();
+     //   getBookList();
 
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CustActivity.class);
-                intent.putExtra("bookName", "");
+                intent.putExtra("id", "");
                 startActivity(intent);
             }
         });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+         getBookList();
     }
 
     public static CustInterface getApi() {

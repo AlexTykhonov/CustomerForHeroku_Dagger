@@ -43,6 +43,9 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, CustActivity.class);
                 intent.putExtra("id", customer.getCustId());
+                intent.putExtra("age", customer.getAge());
+                intent.putExtra("firstname", customer.getFirstname());
+                intent.putExtra("lastname", customer.getLastname());
                 context.startActivity(intent);
             }
         });
