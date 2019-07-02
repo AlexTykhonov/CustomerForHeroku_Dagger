@@ -7,12 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerAppCompatActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class CustActivity extends AppCompatActivity {
+// КОММЕНТАРИИ С МЕНЯ
+public class CustActivity extends DaggerAppCompatActivity {
 
+    @Inject
     CustInterface custInterface;
+
     EditText newid;
     EditText newname;
     EditText newsurname;
@@ -21,6 +27,7 @@ public class CustActivity extends AppCompatActivity {
     Button buttonDelete;
     Button buttonUpdate;
     Adapter adapter;
+
 
 
     @Override
@@ -37,7 +44,7 @@ public class CustActivity extends AppCompatActivity {
         buttonDelete = findViewById(R.id.buttonDelete);
         buttonUpdate = findViewById(R.id.buttonUpdate);
 
-        custInterface = ApiUtils.getCustInterface();
+       // custInterface = ApiUtils.getCustInterface();
 
         String firstname, lastname;
         Integer age;

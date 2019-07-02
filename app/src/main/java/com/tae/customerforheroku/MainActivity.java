@@ -34,13 +34,23 @@ public class MainActivity extends DaggerAppCompatActivity {
     Button btnAddBook;
     Button btnGetBookList;
     ListView listView;
-    CustInterface custInterface;
+
     List<Customer> listOfCustomers = new ArrayList<>();
     RecyclerView recyclerView;
     Adapter adapter;
 
     @Inject
-    HttpLoggingInterceptor interceptor;
+    CustInterface custInterface;
+
+
+//    @Inject
+//    HttpLoggingInterceptor interceptor;
+//
+//    @Inject
+//    Gson gson;
+//
+//    @Inject
+//    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +63,13 @@ public class MainActivity extends DaggerAppCompatActivity {
         recyclerView.setAdapter(adapter);
         btnAddBook = findViewById(R.id.btnAddBook);
         btnGetBookList = findViewById(R.id.btnGetBookList);
-        custInterface = getApi();
+    //    custInterface = getApi();
 
 //      HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 //      interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 
      //   getBookList();
 
@@ -80,21 +90,22 @@ public class MainActivity extends DaggerAppCompatActivity {
          getBookList();
     }
 
-    public static CustInterface getApi() {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
+// БЛОК ЗАМЕЩАЕТСЯ РЕТРОФИТМОДУЛЕМ ДАГГЕРА
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://fluxcustomer.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+//    public static CustInterface getApi() {
+//        Gson gson = new GsonBuilder()
+//                .setLenient()
+//                .create();
 
-        CustInterface custInterface = retrofit.create(CustInterface.class);
-        return custInterface;
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://fluxcustomer.herokuapp.com/")
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .build();
 
-    }
+//        CustInterface custInterface = retrofit.create(CustInterface.class);
+//        return custInterface;
+//    }
 
     public void getBookList() {
         System.out.println("-------------------------------------GET BOOK LIST used ");
